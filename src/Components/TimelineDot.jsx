@@ -1,6 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
+import React from 'react';
 
 /**
  * The static/non-static styles Information for a single event dot on the timeline
@@ -20,9 +20,9 @@ const dots = {
    */
   base: {
     position: 'absolute',
-    bottom: -5,
-    height: 12,
-    width: 12,
+    bottom: -4,
+    height: 6,
+    width: 6,
     borderRadius: '50%',
     transition: 'background-color 0.3s, border-color 0.3s',
     ':hover': {}, // We need this to track the hover state of this element
