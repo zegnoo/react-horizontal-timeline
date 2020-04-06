@@ -99,22 +99,26 @@ class EventsBar extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    console.log("getDerivedStateFromProps 0", state);
+    console.log("getDerivedStateFromProps 0 : autoplay ? ", props.autoplay,  state);
     const selectedEvent = props.events[props.index];
     const minVisible = -state.position; // Position is always negative!
     const maxVisible = minVisible + props.visibleWidth;
     let slideTo = 0;
     console.log("getDerivedStateFromProps  1 ", minVisible, maxVisible, selectedEvent)
-    //if (selectedEvent.distance > (minVisible + 10) && selectedEvent.distance < (maxVisible - 10)) {
+    if (selectedEvent.distance > (minVisible + 10) && selectedEvent.distance < (maxVisible - 10)) {
       //Make sure we are not outside the view
       console.log("not outside the view")
       slideTo = EventsBar.slideToPosition(state.position, props);
-    //} //else {
+    } else {
       //Try to center the selected index
-      //console.log("outside the view")
-      //slideTo = EventsBar.slideToPosition(state.position, props);
+      console.log("outside the view")
+      if (props.autoplay) {
+        slideTo = EventsBar.centerEvent(props.index, props);
+      } else {
+        slideTo = EventsBar.slideToPosition(state.position, props);
+      }
       //slideTo = EventsBar.slideToPosition(-(selectedEvent.distance - (props.visibleWidth / 2)), props);
-    //}
+    }
     if (state.position === slideTo.position && state.maxPosition === slideTo.maxPosition) {
       console.log("getDerivedStateFromProps 2 NO CHANGE");
       return null;
@@ -146,6 +150,7 @@ class EventsBar extends React.Component {
    */
   static slideToPosition = (position, props = this.props) => {
       // the width of the timeline component between the two buttons (prev and next)
+      console.log("slideToPosition", props)
       const maxPosition = Math.min(props.visibleWidth - props.totalWidth, 0); // NEVER scroll to the right
       console.log(
         "slideToPosition", 
@@ -181,10 +186,12 @@ class EventsBar extends React.Component {
     }
   };
 
-  centerEvent = (index, props = this.props) => {
+  static centerEvent = (index, props = this.props) => {
       const event = props.events[index];
-      const state = EventsBar.slideToPosition(-event.distance);
+      console.log(index, event)
+      const state = EventsBar.slideToPosition(-event.distance, props);
       console.log("centerEvent", state)
+      return state;
       this.setState(state);
   }
 
@@ -296,6 +303,7 @@ EventsBar.propTypes = {
   barPaddingRight: PropTypes.number.isRequired,
   barPaddingLeft: PropTypes.number.isRequired,
   showFaders: PropTypes.bool,
+  autoplay: PropTypes.bool,
   buttonLeft:  PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func
@@ -315,7 +323,8 @@ EventsBar.defaultProps = {
   // --- INTERACTION ---
   isTouchEnabled: true,
   isKeyboardEnabled: true,
-  showFaders: true
+  showFaders: true,
+  autoplay: false
 };
 
 export default EventsBar;

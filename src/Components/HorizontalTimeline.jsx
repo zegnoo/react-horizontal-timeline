@@ -91,6 +91,7 @@ class HorizontalTimeline extends React.Component {
         showFaders={props.showFaders}
         buttonLeft={this.props.buttonLeft}
         buttonRight={this.props.buttonRight}
+        autoplay={this.props.autoplay}
       />
     );
   };
@@ -130,6 +131,7 @@ HorizontalTimeline.propTypes = {
   isTouchEnabled: PropTypes.bool,
   isKeyboardEnabled: PropTypes.bool,
   showFaders: PropTypes.bool,
+  autoplay: PropTypes.bool,
   buttonLeft:  PropTypes.oneOfType([
     PropTypes.element,
     PropTypes.func
@@ -174,7 +176,8 @@ HorizontalTimeline.defaultProps = {
   isKeyboardEnabled: true,
   showFaders: true,
   buttonLeft:  <FaAngleLeft />,
-  buttonRight: <FaAngleRight />
+  buttonRight: <FaAngleRight />,
+  autoplay: false
 };
 
 export default Radium(dimensions({elementResize: true})(HorizontalTimeline));
