@@ -29,6 +29,9 @@ Property	                  |	Type   	     |	Default	                      |	Desc
  isKeyboardEnabled         | boolean       | true                           | Enable keyboard events (up, down, left, right)
  isOpenBeginning           | boolean       | true                           | Show the beginning of the timeline as open ended
  isOpenEnding              | boolean       | true                           | Show the ending of the timeline as open ended
+ buttonLeft                | React.element | <FaAngleLeft />                | Backward button icon
+ buttonRight               | React.element | <FaAngleRight />               | Forward button icon
+ showFaders                | boolean       | true                           | Display faders on the timeline borders
 
 This is how it can be used.
 

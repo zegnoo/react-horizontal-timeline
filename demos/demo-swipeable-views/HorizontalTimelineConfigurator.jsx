@@ -76,6 +76,7 @@ CheckIn.propTypes = {
 
 
 const HorizontalTimelineConfigurator = (props) => {
+  console.log("HorizontalTimelineConfigurator", props)
   return (
     <div className={'container'} style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
       <h2 className='text-center' style={{ flex: 1 }} >Configure the Timeline</h2>
@@ -84,6 +85,11 @@ const HorizontalTimelineConfigurator = (props) => {
         <NumberIn config='minEventPadding' label='Minimum' max={props.maxEventPadding} min={20} {...props} />
         <NumberIn config='maxEventPadding' label='Maximum' min={props.minEventPadding} {...props} />
       </Container>
+      
+      <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap' }}>
+        <div style={{ flex: 3, fontSize: 20 }}>Display faders</div>
+        <CheckIn config='showFaders' label='Display faders' {...props} />
+      </div>
 
       <Container label='Endings'>
         <CheckIn config='isOpenBeginning' label='Open Begining' {...props} />
@@ -130,7 +136,8 @@ HorizontalTimelineConfigurator.propTypes = {
   slidingMotionDamping: PropTypes.number.isRequired,
   stylesBackground: PropTypes.string.isRequired,
   stylesForeground: PropTypes.string.isRequired,
-  stylesOutline: PropTypes.string.isRequired
+  stylesOutline: PropTypes.string.isRequired,
+  showFaders: PropTypes.bool.isRequired
 };
 
 export default HorizontalTimelineConfigurator;

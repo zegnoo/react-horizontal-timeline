@@ -30,13 +30,11 @@ class EventsBar extends React.Component {
     }
   }
 
-  componentWillMount() {
-    document.body.addEventListener('keydown', this.handleKeydown);
-  }
-
   componentDidMount() {
+    document.body.addEventListener('keydown', this.handleKeydown);
     const selectedEvent = this.props.events[this.props.index];
-    this.slideToPosition(-(selectedEvent.distance - (this.props.visibleWidth / 2)), this.props);
+    const state = EventsBar.slideToPosition(-(selectedEvent.distance - (this.props.visibleWidth / 2)), this.props);
+    this.setState(state);
   }
 
   componentWillUnmount() {
@@ -100,34 +98,66 @@ class EventsBar extends React.Component {
     this.touch.started = false;
   };
 
-
-  componentWillReceiveProps(props) {
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps 0", state);
     const selectedEvent = props.events[props.index];
-    const minVisible = -this.state.position; // Position is always negative!
+    const minVisible = -state.position; // Position is always negative!
     const maxVisible = minVisible + props.visibleWidth;
-
-    if (selectedEvent.distance > (minVisible + 10) && selectedEvent.distance < (maxVisible - 10)) {
+    let slideTo = 0;
+    console.log("getDerivedStateFromProps  1 ", minVisible, maxVisible, selectedEvent)
+    //if (selectedEvent.distance > (minVisible + 10) && selectedEvent.distance < (maxVisible - 10)) {
       //Make sure we are not outside the view
-      this.slideToPosition(this.state.position, props);
-    } else {
+      console.log("not outside the view")
+      slideTo = EventsBar.slideToPosition(state.position, props);
+    //} //else {
       //Try to center the selected index
-      this.slideToPosition(-(selectedEvent.distance - (props.visibleWidth / 2)), props);
+      //console.log("outside the view")
+      //slideTo = EventsBar.slideToPosition(state.position, props);
+      //slideTo = EventsBar.slideToPosition(-(selectedEvent.distance - (props.visibleWidth / 2)), props);
+    //}
+    if (state.position === slideTo.position && state.maxPosition === slideTo.maxPosition) {
+      console.log("getDerivedStateFromProps 2 NO CHANGE");
+      return null;
     }
+    state.position = slideTo.position;
+    state.maxPosition = slideTo.maxPosition;
+    console.log("getDerivedStateFromProps 2", state);
+    return state;
   }
+
+
+  // componentWillReceiveProps(props) {
+  //   const selectedEvent = props.events[props.index];
+  //   const minVisible = -this.state.position; // Position is always negative!
+  //   const maxVisible = minVisible + props.visibleWidth;
+  //   if (selectedEvent.distance > (minVisible + 10) && selectedEvent.distance < (maxVisible - 10)) {
+  //     //Make sure we are not outside the view
+  //     this.slideToPosition(this.state.position, props);
+  //   } else {
+  //     //Try to center the selected index
+  //     this.slideToPosition(-(selectedEvent.distance - (props.visibleWidth / 2)), props);
+  //   }
+  // }
 
   /**
    * Slide the timeline to a specific position. This method wil automatically cap at 0 and the maximum possible position
    * @param {number} position: The position you want to slide to
    * @return {undefined} Modifies the value by which we translate the events bar
    */
-  slideToPosition = (position, props = this.props) => {
+  static slideToPosition = (position, props = this.props) => {
       // the width of the timeline component between the two buttons (prev and next)
       const maxPosition = Math.min(props.visibleWidth - props.totalWidth, 0); // NEVER scroll to the right
-
-      this.setState({
+      console.log(
+        "slideToPosition", 
+        position,
+        {
         position: Math.max(Math.min(0, position), maxPosition),
         maxPosition
       });
+      return {
+        position: Math.max(Math.min(0, position), maxPosition),
+        maxPosition: maxPosition
+      };
   }
 
   /**
@@ -141,16 +171,21 @@ class EventsBar extends React.Component {
   updateSlide = (direction, props = this.props) => {
     //  translate the timeline to the left('next')/right('prev')
     if (direction === Constants.RIGHT) {
-      this.slideToPosition((this.state.position - props.visibleWidth) + props.labelWidth, props);
+      const state = EventsBar.slideToPosition((this.state.position - props.visibleWidth) + props.labelWidth, props);
+      console.log("updateSlide Right", state)
+      this.setState(state);
     } else if (direction === Constants.LEFT) {
-      this.slideToPosition((this.state.position + props.visibleWidth) - props.labelWidth, props);
+      const state = EventsBar.slideToPosition((this.state.position + props.visibleWidth) - props.labelWidth, props);
+      console.log("updateSlide Left", state)
+      this.setState(state);
     }
   };
 
   centerEvent = (index, props = this.props) => {
       const event = props.events[index];
-
-      this.slideToPosition(-event.distance);
+      const state = EventsBar.slideToPosition(-event.distance);
+      console.log("centerEvent", state)
+      this.setState(state);
   }
 
   render() {
@@ -168,6 +203,8 @@ class EventsBar extends React.Component {
     // filled value = distane from origin to the selected event
     const filledValue = this.props.events[this.props.index].distance - this.props.barPaddingLeft;
     const eventLineWidth = this.props.totalWidth - this.props.barPaddingLeft - this.props.barPaddingRight;
+
+    const faders = this.props.showFaders ? <Faders styles={this.props.styles}/> : "";
 
     return (
       <div
@@ -225,11 +262,13 @@ class EventsBar extends React.Component {
             </div>
             }</Motion>
           </div>
-          <Faders styles={this.props.styles}/>
+          {faders}
           <HorizontalTimelineButtons
             maxPosition={this.state.maxPosition}
             position={this.state.position}
             styles={this.props.styles}
+            buttonLeft={this.props.buttonLeft}
+            buttonRight={this.props.buttonRight}
             updateSlide={this.updateSlide}
           />
       </div>
@@ -246,6 +285,7 @@ EventsBar.propTypes = {
     date: PropTypes.string.isRequired,
   })).isRequired,
   isTouchEnabled: PropTypes.bool.isRequired,
+  isKeyboardEnabled: PropTypes.bool,
   totalWidth: PropTypes.number.isRequired,
   visibleWidth: PropTypes.number.isRequired,
   index: PropTypes.number,
@@ -255,7 +295,27 @@ EventsBar.propTypes = {
   fillingMotion: PropTypes.object.isRequired,
   barPaddingRight: PropTypes.number.isRequired,
   barPaddingLeft: PropTypes.number.isRequired,
+  showFaders: PropTypes.bool,
+  buttonLeft:  PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
+  ]),
+  buttonRight:  PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
+  ])
 }
 
+/**
+ * The values that the properties will take if they are not provided
+ * by the user.
+ * @type {Object}
+ */
+EventsBar.defaultProps = {
+  // --- INTERACTION ---
+  isTouchEnabled: true,
+  isKeyboardEnabled: true,
+  showFaders: true
+};
 
 export default EventsBar;

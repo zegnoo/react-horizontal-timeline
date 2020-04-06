@@ -1,10 +1,7 @@
-import React from 'react';
+import React, {cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
 import Constants from '../Constants';
-
-// icons
-import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 // this handles the rendering part of the buttons that appear on either side of
 // the timeline.
@@ -77,6 +74,20 @@ const HorizontalTimelineButtons = (props) => {
     buttonStyles.link(props.styles),
   ];
 
+  const buttonLeftProps = {
+    style: buttonStyles.icon(props.styles, buttonBackEnabled)
+  }
+  const buttonLeft = cloneElement(props.buttonLeft, {
+    ...buttonLeftProps
+  })
+  const buttonRighttProps = {
+    style: buttonStyles.icon(props.styles, buttonForwardEnabled)
+  }
+
+  const buttonRight = cloneElement(props.buttonRight, {
+    ...buttonRighttProps
+  })
+
   return (
     <ul className="buttons">
       <li
@@ -89,9 +100,8 @@ const HorizontalTimelineButtons = (props) => {
           { [Constants.LEFT]: 0 }
         ]}
       >
-        <FaAngleLeft
-          style={buttonStyles.icon(props.styles, buttonBackEnabled)}
-        />
+        {buttonLeft}
+
       </li>
       <li
         className={`button-forward ${buttonForwardEnabled ? 'enabled' : 'disabled'}`}
@@ -103,9 +113,8 @@ const HorizontalTimelineButtons = (props) => {
           { [Constants.RIGHT]: 0 }
         ]}
       >
-        <FaAngleRight
-          style={buttonStyles.icon(props.styles, buttonForwardEnabled)}
-        />
+        {buttonRight}
+       
       </li>
     </ul>
   );
@@ -121,7 +130,15 @@ HorizontalTimelineButtons.propTypes = {
   // The user passed styles (has fields like foreground, background color etc.)
   styles: PropTypes.object,
   // The maximum position that the timeline component can acuire, (on initial load will be null)
-  maxPosition: PropTypes.number
+  maxPosition: PropTypes.number,
+  buttonLeft:  PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
+  ]),
+  buttonRight:  PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
+  ])
 };
 
 // Wrapping the buttons with Radium (so we get all the styling goodness)

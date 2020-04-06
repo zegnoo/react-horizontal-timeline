@@ -8,6 +8,9 @@ import dimensions from 'react-dimensions';
 // Components
 import EventsBar from './EventsBar';
 
+// icons
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+
 // Helpers and constansts
 import {zip, daydiff, cummulativeSeperation} from '../helpers';
 import Constants from '../Constants';
@@ -75,6 +78,7 @@ class HorizontalTimeline extends React.Component {
         height={props.containerHeight}
         events={events}
         isTouchEnabled={props.isTouchEnabled}
+        isKeyboardEnabled={props.isKeyboardEnabled}
         totalWidth={totalWidth}
         visibleWidth={visibleWidth}
         index={props.index}
@@ -84,6 +88,9 @@ class HorizontalTimeline extends React.Component {
         fillingMotion={props.fillingMotion}
         barPaddingRight={barPaddingRight}
         barPaddingLeft={barPaddingLeft}
+        showFaders={props.showFaders}
+        buttonLeft={this.props.buttonLeft}
+        buttonRight={this.props.buttonRight}
       />
     );
   };
@@ -122,6 +129,15 @@ HorizontalTimeline.propTypes = {
   // --- INTERACTION ---
   isTouchEnabled: PropTypes.bool,
   isKeyboardEnabled: PropTypes.bool,
+  showFaders: PropTypes.bool,
+  buttonLeft:  PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
+  ]),
+  buttonRight:  PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.func
+  ])
 };
 
 /**
@@ -156,6 +172,9 @@ HorizontalTimeline.defaultProps = {
   // --- INTERACTION ---
   isTouchEnabled: true,
   isKeyboardEnabled: true,
+  showFaders: true,
+  buttonLeft:  <FaAngleLeft />,
+  buttonRight: <FaAngleRight />
 };
 
 export default Radium(dimensions({elementResize: true})(HorizontalTimeline));

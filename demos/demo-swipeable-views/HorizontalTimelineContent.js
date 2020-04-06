@@ -5,6 +5,8 @@ import SwipeableViews from 'react-swipeable-views';
 import HorizontalTimeline from '../../src/Components/HorizontalTimeline';
 import HorizontalTimelineConfigurator from './HorizontalTimelineConfigurator';
 
+// icons
+import { FaFastForward, FaFastBackward } from 'react-icons/fa';
 
 export default class HorizontalTimelineContent extends React.Component {
   constructor(props) {
@@ -30,6 +32,7 @@ export default class HorizontalTimelineContent extends React.Component {
       isKeyboardEnabled: true,
       isOpenEnding: true,
       isOpenBeginning: true,
+      showFaders: true
     };
   }
 
@@ -61,10 +64,11 @@ export default class HorizontalTimelineContent extends React.Component {
       configurator = (
         <HorizontalTimelineConfigurator
           setConfig={(key, value) => {
+            console.log("setConfig", key, value);
             this.setState({ [key]: value });
           }}
           {...this.state}
-        />
+        /> 
       );
     }
 
@@ -93,6 +97,9 @@ export default class HorizontalTimelineContent extends React.Component {
             values={ this.dates }
             isOpenEnding={state.isOpenEnding}
             isOpenBeginning={state.isOpenBeginning}
+            showFaders={state.showFaders}
+            buttonLeft={<FaFastBackward />}
+            buttonRight={<FaFastForward />}
           />
         </div>
         <div className='text-center'>
