@@ -2,12 +2,12 @@ import React from 'react';
 import {Motion, spring} from 'react-motion';
 import PropTypes from 'prop-types';
 
-import Events from './Events';
-import EventLine from './EventLine';
-import Faders from './Faders';
-import HorizontalTimelineButtons from './HorizontalTimelineButtons';
+import Events from './Events.jsx';
+import EventLine from './EventLine.jsx';
+import Faders from './Faders.jsx';
+import HorizontalTimelineButtons from './HorizontalTimelineButtons.jsx';
 
-import Constants from '../Constants';
+import Constants from '../Constants.js';
 
 class EventsBar extends React.Component {
 

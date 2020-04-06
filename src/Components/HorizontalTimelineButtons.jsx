@@ -1,7 +1,7 @@
 import React, {cloneElement} from 'react';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import Constants from '../Constants';
+import Constants from '../Constants.js';
 
 // this handles the rendering part of the buttons that appear on either side of
 // the timeline.

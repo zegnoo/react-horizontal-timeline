@@ -6,14 +6,14 @@ import Radium from 'radium';
 import dimensions from 'react-dimensions';
 
 // Components
-import EventsBar from './EventsBar';
+import EventsBar from './EventsBar.jsx';
 
 // icons
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 // Helpers and constansts
-import {zip, daydiff, cummulativeSeperation} from '../helpers';
-import Constants from '../Constants';
+import {zip, daydiff, cummulativeSeperation} from '../helpers.js';
+import Constants from '../Constants.js';
 
 /**
  * Default method to convert a date to a string label
