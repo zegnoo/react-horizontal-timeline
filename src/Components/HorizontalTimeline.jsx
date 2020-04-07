@@ -1,19 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-// Decorators
-import Radium from 'radium';
-import dimensions from 'react-dimensions';
-
-// Components
-import EventsBar from './EventsBar.jsx';
-
 // icons
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-
 // Helpers and constansts
-import {zip, daydiff, cummulativeSeperation} from '../helpers.js';
+import {cummulativeSeperation, daydiff, zip} from '../helpers.js';
+
 import Constants from '../Constants.js';
+// Components
+import EventsBar from './EventsBar.jsx';
+import PropTypes from 'prop-types';
+// Decorators
+import Radium from 'radium';
+import React from 'react';
+import dimensions from 'react-dimensions';
 
 /**
  * Default method to convert a date to a string label
@@ -159,7 +156,8 @@ HorizontalTimeline.defaultProps = {
   styles: {
     outline: '#dfdfdf',
     background: '#f8f8f8',
-    foreground: '#7b9d6f'
+    foreground: '#7b9d6f',
+    outlineTimelineButton: "#dfdfdf"
   },
   fillingMotion: {
     stiffness: 150,

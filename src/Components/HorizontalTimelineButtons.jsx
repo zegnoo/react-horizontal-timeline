@@ -1,7 +1,8 @@
 import React, {cloneElement} from 'react';
+
+import Constants from '../Constants.js';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-import Constants from '../Constants.js';
 
 // this handles the rendering part of the buttons that appear on either side of
 // the timeline.
@@ -17,7 +18,7 @@ import Constants from '../Constants.js';
  * inactive: styles defined for when the icons are inactive.
  */
 const buttonStyles = {
-  link: ({ outline }) => ({
+  link: ({ outlineTimelineButton }) => ({
     position: 'absolute',
     top: '49px',
     bottom: 'auto',
@@ -25,7 +26,7 @@ const buttonStyles = {
     height: 34,
     width: 34,
     borderRadius: '50%',
-    border: `2px solid ${outline}`,
+    border: `2px solid ${outlineTimelineButton}`,
     overflow: 'hidden',
     textIndent: '100%',
     whiteSpace: 'nowrap',
@@ -48,13 +49,13 @@ const buttonStyles = {
     color: styles.outline,
     cursor: 'not-allowed',
     ':hover': {
-      border: `2px solid ${styles.outline}`
+      border: `2px solid ${styles.outlineTimelineButton}`
     }
   }),
   active: (styles) => ({
     cursor: 'pointer',
     ':hover': {
-      border: `2px solid ${styles.foreground}`,
+      border: `2px solid ${styles.outlineTimelineButton}`,
       color: styles.foreground
     }
   })
