@@ -1,8 +1,7 @@
-import React from 'react';
+import Color from 'color';
 import PropTypes from 'prop-types';
 import Radium from 'radium';
-
-import Color from 'color';
+import React from 'react';
 
 const LEFT = 'left';
 const RIGHT = 'right';
@@ -23,12 +22,13 @@ const faderStyle = {
     bottom: 'auto',
     transform: 'translateY(-50%)',
     height: '100%',
-    width: 20,
+    width: 60,
     overflow: 'hidden',
+    pointerEvents:'none'
   },
   specific: (styles, position, gradientDirection) => ({
-    [position]: 40,
-    backgroundImage: `linear-gradient(to ${gradientDirection}, ${styles.faders}, ${Color(styles.faders).alpha(0).rgb()})`
+    [position]: 5,
+    backgroundImage: `linear-gradient(to ${gradientDirection}, ${styles.faders} 60%, ${Color(styles.faders).alpha(0).rgb()})`
   })
 };
 

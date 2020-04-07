@@ -20,7 +20,7 @@ import Radium from 'radium';
 const buttonStyles = {
   link: ({ outlineTimelineButton }) => ({
     position: 'absolute',
-    top: '49px',
+    top: '37px',
     bottom: 'auto',
     transform: 'translateY(-50%)',
     height: 34,
@@ -38,7 +38,7 @@ const buttonStyles = {
     top: '50%',
     bottom: 'auto',
     transform: 'translateY(-50%)',
-    height: 20,
+    // height: 20,
     width: 29,
     overflow: 'hidden',
     textIndent: '100%',

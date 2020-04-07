@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Motion, spring } from 'react-motion';
 
+import PropTypes from 'prop-types';
+import React from 'react';
 
 /**
  * The markup Information for an event Line. You can stack multiple lines on top of eachother

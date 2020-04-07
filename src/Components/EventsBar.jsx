@@ -1,13 +1,12 @@
-import React from 'react';
 import {Motion, spring} from 'react-motion';
-import PropTypes from 'prop-types';
-
-import Events from './Events.jsx';
-import EventLine from './EventLine.jsx';
-import Faders from './Faders.jsx';
-import HorizontalTimelineButtons from './HorizontalTimelineButtons.jsx';
 
 import Constants from '../Constants.js';
+import EventLine from './EventLine.jsx';
+import Events from './Events.jsx';
+import Faders from './Faders.jsx';
+import HorizontalTimelineButtons from './HorizontalTimelineButtons.jsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 class EventsBar extends React.Component {
 
@@ -206,8 +205,10 @@ class EventsBar extends React.Component {
           className='events-wrapper'
           style={{
             position: 'relative',
-            height: '100%',
-            margin: '0 40px',
+            left:'35px',
+            top:'-12px',
+            height:'100%',
+            // margin: '0 25px',
             overflow: 'hidden'
           }}
         >
@@ -222,7 +223,7 @@ class EventsBar extends React.Component {
                 position: 'absolute',
                 left: 0,
                 top: 49,
-                height: 2,
+                height: 1,
                 width: this.props.totalWidth,
                 WebkitTransform: `translate3d(${X}, 0, 0)px`,
                 transform: `translate3d(${X}px, 0, 0)`
