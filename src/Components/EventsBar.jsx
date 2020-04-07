@@ -91,41 +91,35 @@ class EventsBar extends React.Component {
 
   handleTouchEnd = (event) => {
     // Make sure we are scrolled to a valid position
-    this.slideToPosition(this.state.position);
+    const state = EventsBar.slideToPosition(this.state.position, this.props);
     this.touch.coors.x = 0;
     this.touch.coors.y = 0;
     this.touch.isSwiping = false;
     this.touch.started = false;
+    this.setState(state);
   };
 
   static getDerivedStateFromProps(props, state) {
-    console.log("getDerivedStateFromProps 0 : autoplay ? ", props.autoplay,  state);
     const selectedEvent = props.events[props.index];
     const minVisible = -state.position; // Position is always negative!
     const maxVisible = minVisible + props.visibleWidth;
     let slideTo = 0;
-    console.log("getDerivedStateFromProps  1 ", minVisible, maxVisible, selectedEvent)
     if (selectedEvent.distance > (minVisible + 10) && selectedEvent.distance < (maxVisible - 10)) {
       //Make sure we are not outside the view
-      console.log("not outside the view")
       slideTo = EventsBar.slideToPosition(state.position, props);
     } else {
       //Try to center the selected index
-      console.log("outside the view")
       if (props.autoplay) {
         slideTo = EventsBar.centerEvent(props.index, props);
       } else {
         slideTo = EventsBar.slideToPosition(state.position, props);
       }
-      //slideTo = EventsBar.slideToPosition(-(selectedEvent.distance - (props.visibleWidth / 2)), props);
     }
     if (state.position === slideTo.position && state.maxPosition === slideTo.maxPosition) {
-      console.log("getDerivedStateFromProps 2 NO CHANGE");
       return null;
     }
     state.position = slideTo.position;
     state.maxPosition = slideTo.maxPosition;
-    console.log("getDerivedStateFromProps 2", state);
     return state;
   }
 
@@ -150,15 +144,7 @@ class EventsBar extends React.Component {
    */
   static slideToPosition = (position, props = this.props) => {
       // the width of the timeline component between the two buttons (prev and next)
-      console.log("slideToPosition", props)
       const maxPosition = Math.min(props.visibleWidth - props.totalWidth, 0); // NEVER scroll to the right
-      console.log(
-        "slideToPosition", 
-        position,
-        {
-        position: Math.max(Math.min(0, position), maxPosition),
-        maxPosition
-      });
       return {
         position: Math.max(Math.min(0, position), maxPosition),
         maxPosition: maxPosition
@@ -177,22 +163,17 @@ class EventsBar extends React.Component {
     //  translate the timeline to the left('next')/right('prev')
     if (direction === Constants.RIGHT) {
       const state = EventsBar.slideToPosition((this.state.position - props.visibleWidth) + props.labelWidth, props);
-      console.log("updateSlide Right", state)
       this.setState(state);
     } else if (direction === Constants.LEFT) {
       const state = EventsBar.slideToPosition((this.state.position + props.visibleWidth) - props.labelWidth, props);
-      console.log("updateSlide Left", state)
       this.setState(state);
     }
   };
 
   static centerEvent = (index, props = this.props) => {
       const event = props.events[index];
-      console.log(index, event)
       const state = EventsBar.slideToPosition(-event.distance, props);
-      console.log("centerEvent", state)
       return state;
-      this.setState(state);
   }
 
   render() {
