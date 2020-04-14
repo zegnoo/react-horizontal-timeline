@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
+// icons
+import { FaFastBackward, FaFastForward } from 'react-icons/fa';
 
 import HorizontalTimeline from '../../src/Components/HorizontalTimeline';
 import HorizontalTimelineConfigurator from './HorizontalTimelineConfigurator';
-
-// icons
-import { FaFastForward, FaFastBackward } from 'react-icons/fa';
+import PropTypes from 'prop-types';
+import React from 'react';
+import SwipeableViews from 'react-swipeable-views';
 
 export default class HorizontalTimelineContent extends React.Component {
   constructor(props) {
@@ -64,7 +63,7 @@ export default class HorizontalTimelineContent extends React.Component {
       configurator = (
         <HorizontalTimelineConfigurator
           setConfig={(key, value) => {
-            console.log("setConfig", key, value);
+            // console.log("setConfig", key, value);
             this.setState({ [key]: value });
           }}
           {...this.state}

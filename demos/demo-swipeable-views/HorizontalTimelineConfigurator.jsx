@@ -1,6 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
+import React from 'react';
 
 const Container = (props) => (
   <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap' }}>
@@ -76,7 +75,7 @@ CheckIn.propTypes = {
 
 
 const HorizontalTimelineConfigurator = (props) => {
-  console.log("HorizontalTimelineConfigurator", props)
+  // console.log("HorizontalTimelineConfigurator", props)
   return (
     <div className={'container'} style={{ display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
       <h2 className='text-center' style={{ flex: 1 }} >Configure the Timeline</h2>
